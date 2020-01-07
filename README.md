@@ -2,15 +2,15 @@
 
 Draw a fractal tree using golang and pixel.
 
-<!-- <p align="center">
+<p align="center">
 	<a href="">
 		<img alt="Game" src="demo.png" width="300px">
 	</a>
-</p> -->
+</p>
 
 ## How to run
 
-Config the $GOPATH stuff. Clone the repository.
+Config the \$GOPATH stuff. Clone the repository.
 
 ```bash
 $ export GOPATH=$HOME/Workspace/go
@@ -40,8 +40,8 @@ $ fractal-tree
 
 ## Author
 
-* **Rafael Coelho** - [rafaellcoellho](https://github.com/rafaellcoellho)
+- **Rafael Coelho** - [rafaellcoellho](https://github.com/rafaellcoellho)
 
-## Reference 
+## Reference
 
-+ [coding train video](https://www.youtube.com/watch?v=0jjeOYMjmDU)
+- [coding train video](https://www.youtube.com/watch?v=0jjeOYMjmDU)
