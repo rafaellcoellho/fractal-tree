@@ -1,15 +1,33 @@
 package main
 
 import (
+	"math"
+
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
 )
 
+func createFractaTree(basePoint pixel.Vec, len float64, angle float64, imd *imdraw.IMDraw) {
+	nextPoint := basePoint.Add(
+		pixel.V(
+			len*math.Cos(angle),
+			len*math.Sin(angle),
+		),
+	)
+	imd.Push(nextPoint)
+}
+
 func run() {
+	const (
+		WindowWidth  = 400
+		WindowHeight = 400
+	)
+
 	cfg := pixelgl.WindowConfig{
-		Title:  "Pixel Rocks!",
-		Bounds: pixel.R(0, 0, 1024, 768),
+		Title:  "fractal tree",
+		Bounds: pixel.R(0, 0, WindowWidth, WindowHeight),
 		VSync:  true,
 	}
 	win, err := pixelgl.NewWindow(cfg)
@@ -17,9 +35,22 @@ func run() {
 		panic(err)
 	}
 
-	win.Clear(colornames.Skyblue)
+	fractalTree := imdraw.New(nil)
+	fractalTree.Color = colornames.White
+
+	fractalTree.Push(pixel.V(200, 0))
+	createFractaTree(
+		pixel.V(200, 0),
+		100,
+		math.Pi/2,
+		fractalTree,
+	)
+
+	fractalTree.Line(1)
 
 	for !win.Closed() {
+		win.Clear(colornames.Black)
+		fractalTree.Draw(win)
 		win.Update()
 	}
 }
