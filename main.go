@@ -9,7 +9,7 @@ import (
 	"golang.org/x/image/colornames"
 )
 
-func createFractaTree(basePoint pixel.Vec, len float64, angle float64, imd *imdraw.IMDraw) {
+func createFractalTreeByLenght(basePoint pixel.Vec, len float64, angle float64, imd *imdraw.IMDraw) {
 	imd.Push(basePoint)
 	nextPoint := basePoint.Add(
 		pixel.V(
@@ -18,18 +18,24 @@ func createFractaTree(basePoint pixel.Vec, len float64, angle float64, imd *imdr
 		),
 	)
 	if len > 4 {
-		createFractaTree(
-			nextPoint,
-			len*0.67,
-			angle-(math.Pi/4),
-			imd,
+		createFractalTreeByLenght(nextPoint, len*0.67, angle-(math.Pi/6), imd)
+		createFractalTreeByLenght(nextPoint, len*0.67, angle+(math.Pi/6), imd)
+	}
+	imd.Line(1)
+}
+
+func createFractalTreeByDepth(basePoint pixel.Vec, depth int, angle float64, imd *imdraw.IMDraw) {
+	if depth > 0 {
+		nextPoint := basePoint.Add(
+			pixel.V(
+				math.Cos(angle)*float64(depth)*10,
+				math.Sin(angle)*float64(depth)*10,
+			),
 		)
-		createFractaTree(
-			nextPoint,
-			len*0.67,
-			angle+(math.Pi/4),
-			imd,
-		)
+		imd.Push(basePoint, nextPoint)
+		imd.Line(1)
+		createFractalTreeByDepth(nextPoint, depth-1, angle-(math.Pi/6), imd)
+		createFractalTreeByDepth(nextPoint, depth-1, angle+(math.Pi/6), imd)
 	}
 }
 
@@ -52,14 +58,8 @@ func run() {
 	fractalTree := imdraw.New(nil)
 	fractalTree.Color = colornames.White
 
-	createFractaTree(
-		pixel.V(200, 0),
-		100,
-		(math.Pi / 2),
-		fractalTree,
-	)
-
-	fractalTree.Line(1)
+	createFractalTreeByLenght(pixel.V(200, 0), 100, math.Pi/2, fractalTree)
+	// createFractalTreeByDepth(pixel.V(200, 0), 7, math.Pi/2, fractalTree)
 
 	for !win.Closed() {
 		win.Clear(colornames.Black)
