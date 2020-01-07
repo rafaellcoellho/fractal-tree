@@ -56,13 +56,13 @@ func run() {
 	}
 
 	fractalTree := imdraw.New(nil)
-	fractalTree.Color = colornames.White
+	fractalTree.Color = colornames.Black
 
 	createFractalTreeByLenght(pixel.V(200, 0), 100, math.Pi/2, fractalTree)
 	// createFractalTreeByDepth(pixel.V(200, 0), 7, math.Pi/2, fractalTree)
 
 	for !win.Closed() {
-		win.Clear(colornames.Black)
+		win.Clear(colornames.White)
 		fractalTree.Draw(win)
 		win.Update()
 	}
