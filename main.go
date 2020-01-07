@@ -10,13 +10,27 @@ import (
 )
 
 func createFractaTree(basePoint pixel.Vec, len float64, angle float64, imd *imdraw.IMDraw) {
+	imd.Push(basePoint)
 	nextPoint := basePoint.Add(
 		pixel.V(
 			len*math.Cos(angle),
 			len*math.Sin(angle),
 		),
 	)
-	imd.Push(nextPoint)
+	if len > 4 {
+		createFractaTree(
+			nextPoint,
+			len*0.67,
+			angle-(math.Pi/4),
+			imd,
+		)
+		createFractaTree(
+			nextPoint,
+			len*0.67,
+			angle+(math.Pi/4),
+			imd,
+		)
+	}
 }
 
 func run() {
@@ -38,11 +52,10 @@ func run() {
 	fractalTree := imdraw.New(nil)
 	fractalTree.Color = colornames.White
 
-	fractalTree.Push(pixel.V(200, 0))
 	createFractaTree(
 		pixel.V(200, 0),
 		100,
-		math.Pi/2,
+		(math.Pi / 2),
 		fractalTree,
 	)
 
